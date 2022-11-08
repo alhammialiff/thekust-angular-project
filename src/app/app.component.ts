@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'conFusion';
+  title = 'conFusion'; // This prop will be accessible in our template
 }
+
+// 'templateUrl' : Can also provide inline template thru using backquotes
+// Eg. 
+// @Component({
+//  ...
+//  template: `<h1>{{title}}</h1>`
+//  style: `color: blue;`
+// })
