@@ -4,7 +4,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatListModule } from '@angular/material/list';
-
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 import { AppComponent } from './app.component';
 
 import 'hammerjs';
@@ -14,18 +16,28 @@ import { MenuComponent } from './menu/menu.component';
 // This decorator module is essentially AppModule
 // Within NgModule contains meta-data for defining AppModule
 @NgModule({
+
+  // Declaration props declares the view classes (or Components) that belong to this module
   declarations: [
     AppComponent,
-    MenuComponent // Declaration props declares the view classes that belong to this module
+    MenuComponent 
   ],
+
+  // This are the imports needed for this module (AppModule)
   imports: [
-    BrowserModule, // This NgModule depends on BrowserModule
+    BrowserModule, 
     BrowserAnimationsModule,
     FlexLayoutModule,
     MatToolbarModule,
-    MatListModule
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatButtonModule
+
   ],
+
   providers: [], // Providers specifies the services this module needs
+
   bootstrap: [AppComponent] // To boostrap this Angular app, we need to bootstrap AppComponent
 })
 export class AppModule { }
