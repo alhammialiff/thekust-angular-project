@@ -7,13 +7,19 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { AppComponent } from './app.component';
 
 import 'hammerjs';
+import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
-import { DishService } from './services/dish.service';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
 
+import { DishService } from './services/dish.service';
+import { AppRoutingModule } from './app-routing/app-routing.module';
 // Decorator @NgModule: Modifies the use of JS classes
 // This decorator module is essentially AppModule
 // Within NgModule contains meta-data for defining AppModule
@@ -23,7 +29,12 @@ import { DishService } from './services/dish.service';
   declarations: [
     AppComponent,
     MenuComponent,
-    DishdetailComponent 
+    DishdetailComponent,
+    HeaderComponent,
+    FooterComponent,
+    HomeComponent,
+    AboutComponent,
+    ContactComponent 
   ],
 
   // This are the imports needed for this module (AppModule)
@@ -35,11 +46,12 @@ import { DishService } from './services/dish.service';
     MatListModule,
     MatGridListModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    AppRoutingModule
   ],
 
   providers: [
-    DishService
+    DishService,
   ], // Providers specifies the services this module needs
 
   bootstrap: [AppComponent] // To boostrap this Angular app, we need to bootstrap AppComponent
