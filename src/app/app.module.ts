@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import 'hammerjs';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
+import { DishService } from './services/dish.service';
 
 // Decorator @NgModule: Modifies the use of JS classes
 // This decorator module is essentially AppModule
@@ -37,10 +38,13 @@ import { DishdetailComponent } from './dishdetail/dishdetail.component';
     MatButtonModule
   ],
 
-  providers: [], // Providers specifies the services this module needs
+  providers: [
+    DishService
+  ], // Providers specifies the services this module needs
 
   bootstrap: [AppComponent] // To boostrap this Angular app, we need to bootstrap AppComponent
 })
+
 export class AppModule { }
 
 // 'declarations' key: They can be components, pipes or directives
