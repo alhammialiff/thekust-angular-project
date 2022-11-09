@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 
 import 'hammerjs';
 import { MenuComponent } from './menu/menu.component';
+import { DishdetailComponent } from './dishdetail/dishdetail.component';
 
 // Decorator @NgModule: Modifies the use of JS classes
 // This decorator module is essentially AppModule
@@ -20,7 +21,8 @@ import { MenuComponent } from './menu/menu.component';
   // Declaration props declares the view classes (or Components) that belong to this module
   declarations: [
     AppComponent,
-    MenuComponent 
+    MenuComponent,
+    DishdetailComponent 
   ],
 
   // This are the imports needed for this module (AppModule)
@@ -33,7 +35,6 @@ import { MenuComponent } from './menu/menu.component';
     MatGridListModule,
     MatCardModule,
     MatButtonModule
-
   ],
 
   providers: [], // Providers specifies the services this module needs
