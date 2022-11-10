@@ -14,7 +14,8 @@
     <!-- Grid Menu -->
     <mat-grid-list cols="2" rowHeight="200px">
       <!-- *ngFor: Allows iteration over arrays. 'let dish of dishes' is the loop format -->
-      <mat-grid-tile *ngFor="let dish of dishes" (click)="onSelect(dish)">
+      <!-- <mat-grid-tile *ngFor="let dish of dishes" (click)="onSelect(dish)"> -->
+      <mat-grid-tile *ngFor="let dish of dishes" [routerLink]="['/dishdetail',dish.id]">
         <img height="200px" src={{dish.image}} alt={{dish.name}}>
         <mat-grid-tile-footer>
           <h1>{{dish.name | uppercase}}</h1>
@@ -45,8 +46,8 @@
     </mat-card>
   </div> -->
 
-  <!-- Dishdetail Component here -->
-  <app-dishdetail [dish]="selectedDish"></app-dishdetail>
+  <!-- [Commented for learning] Dishdetail Component here -->
+  <!-- <app-dishdetail [dish]="selectedDish"></app-dishdetail> -->
 
 
 
