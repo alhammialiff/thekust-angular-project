@@ -1,3 +1,5 @@
+import 'hammerjs';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -7,8 +9,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+// Form-related Modules
+import { MatFormFieldModule } from '@angular/material/form-field'; 
+import { MatInputModule} from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 
-import 'hammerjs';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
@@ -17,11 +24,12 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
-
 import { DishService } from './services/dish.service';
 import { LeaderService } from './services/leader.service';
 import { PromotionService } from './services/promotion.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { LoginComponent } from './login/login.component';
+
 // Decorator @NgModule: Modifies the use of JS classes
 // This decorator module is essentially AppModule
 // Within NgModule contains meta-data for defining AppModule
@@ -36,7 +44,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     FooterComponent,
     HomeComponent,
     AboutComponent,
-    ContactComponent 
+    ContactComponent,
+    LoginComponent 
   ],
 
   // This are the imports needed for this module (AppModule)
@@ -44,12 +53,17 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     BrowserModule, 
     BrowserAnimationsModule,
     FlexLayoutModule,
+    FormsModule,
     MatToolbarModule,
     MatListModule,
     MatGridListModule,
     MatCardModule,
     MatButtonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule
   ],
 
   providers: [
@@ -57,6 +71,10 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     PromotionService,
     LeaderService
   ], // Providers specifies the services this module needs
+
+  entryComponents: [
+    LoginComponent
+  ],
 
   bootstrap: [AppComponent] // To boostrap this Angular app, we need to bootstrap AppComponent
 })
