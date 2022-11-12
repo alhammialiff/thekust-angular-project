@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validator } from '@angular/forms';
+// ViewChild allows viewing of child elements in the DOM
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 
 
@@ -14,7 +15,10 @@ export class ContactComponent implements OnInit {
   feedback: Feedback;
   contactType = ContactType;
 
-  constructor(private fb: FormBuilder) { 
+  // This enables us to get access to the tempalte form ad the completely reset form
+  @ViewChild('fform') feedbackFormDirective;
+
+  constructor(private fb: FormBuilder) {
     // Instantiate creation of form
     this.createForm();
   }
@@ -22,10 +26,28 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
   }
 
-  createForm(){
+  createForm() {
 
     // Create form with specified structure
     this.feedbackForm = this.fb.group({
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      telnum: [0, Validators.required],
+      email: ['', Validators.required],
+      agree: [false, Validators.required],
+      contacttype: ['None', Validators.required],
+      message: ['', Validators.required]
+    });
+
+  }
+
+  onSubmit() {
+    // Because it so happens that we created the feedbackForm structure 
+    // identical to the datatype structure, We are able to map the 
+    // this.feedback var with the feedbackForm.value like so (no frills)
+    this.feedback = this.feedbackForm.value;
+    console.log(this.feedback);
+    this.feedbackForm.reset({
       firstname: '',
       lastname: '',
       telnum: 0,
@@ -35,14 +57,8 @@ export class ContactComponent implements OnInit {
       message: ''
     });
 
-  }
-
-  onSubmit(){
-    // Because it so happens that we created the feedbackForm structure identical to the datatype structure,
-    // We are able to map the this.feedback var with the feedbackForm.value like so (no frills)
-    this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
-    this.feedbackForm.reset();
+    // This is to ensure that we have completely reset our form
+    this.feedbackFormDirective.resetForm()
   }
 
 }
