@@ -24,7 +24,9 @@ export class MenuComponent implements OnInit {
   // ngOnInit is a Lifecycle Method: Executed when this component is created
   ngOnInit() {
     // Using service (dishService) to fetch dishes data
-    this.dishes = this.dishService.getDishes();
+    this.dishService.getDishes()
+      .then((dishes) => this.dishes = dishes);
+      // .catch((error) => console.log(error));
   }
 
   // onSelect 'hook' is linked with (click) event in .html

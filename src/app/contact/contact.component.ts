@@ -15,7 +15,7 @@ export class ContactComponent implements OnInit {
   feedback: Feedback;
   contactType = ContactType;
 
-  // This enables us to get access to the tempalte form ad the completely reset form
+  // This enables us to get access to the template form ad the completely reset form
   @ViewChild('fform') feedbackFormDirective;
 
   constructor(private fb: FormBuilder) {

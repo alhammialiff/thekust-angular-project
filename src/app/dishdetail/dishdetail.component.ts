@@ -27,7 +27,8 @@ export class DishdetailComponent implements OnInit {
   ngOnInit() {
     // Fetch ID from route URL parameters
     let id = this.route.snapshot.params['id'];
-    this.dish = this.dishService.getDish(id);
+    this.dishService.getDish(id)
+      .then((dish)=> this.dish = dish);
   }
 
   // Trigger app URL to go back
