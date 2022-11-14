@@ -9,7 +9,7 @@
 
   </div>
 
-  <div fxFlex>
+  <div fxFlex *ngIf="dishes">
 
     <!-- Grid Menu -->
     <mat-grid-list cols="2" rowHeight="200px">
@@ -23,6 +23,12 @@
       </mat-grid-tile>
     </mat-grid-list>
 
+  </div>
+  
+  <!-- When dish is not yet resolved, the spinner is shown -->
+  <div fxFlex [hidden]="dishes">
+    <mat-spinner></mat-spinner>
+    <h4>Loading . . . Please Wait</h4>
   </div>
 
   <!-- [Commented for learning] Selected Dish here -->
