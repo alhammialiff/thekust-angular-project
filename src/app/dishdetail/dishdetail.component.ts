@@ -4,6 +4,7 @@ import { Dish } from '../shared/dish';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DishService } from '../services/dish.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dishdetail',
@@ -16,24 +17,52 @@ export class DishdetailComponent implements OnInit {
   // @Input()
   // dish: Dish; 
 
-  // Retrieving input values via Route Parameters
-  dish: Dish; 
-  
+  // TS data types
+  dish: Dish;
+  dishIds: string[];
+  prev: string;
+  next: string;
+
 
   constructor(private dishService: DishService,
     private location: Location,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // Fetch ID from route URL parameters
-    let id = this.route.snapshot.params['id'];
-    this.dishService.getDish(id)
-      .then((dish)=> this.dish = dish);
+    // Fetch ID from route URL parameters. Params is one of Angular built-in observables
+    // snapshot: snapshot captures a 'snapshot' of the route service at the time it is invoked.
+    // let id = this.route.snapshot.params['id'];
+
+    // RxJS: What happens here?
+    // getDishIds() is invoked and subscribe to monitor any change in values
+    this.dishService.getDishIds()
+      .subscribe((dishIds)=> this.dishIds = dishIds);
+
+    // RxJS: What happens here? 
+    // Whenever params observable changes value (route parameter), switchMap immediately 
+    // takes the params value and do a getDish (observable) from my dishService. Finally, the observable 
+    // is subscribed
+    this.route
+      .params
+      .pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
+      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+
+    // this.dishService.getDish(id)
+    //   .subscribe((dish) => this.dish = dish);
+  }
+
+  // When invoked, it sets the prev and next dishId value
+  setPrevNext(dishId: string){
+    const index = this.dishIds.indexOf(dishId);
+    this.prev = this.dishIds[(this.dishIds.length + index - 1)%this.dishIds.length];
+    this.next = this.dishIds[(this.dishIds.length + index + 1)%this.dishIds.length];
   }
 
   // Trigger app URL to go back
-  goBack(): void{
+  goBack(): void {
     this.location.back();
   }
+
+
 
 }

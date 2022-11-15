@@ -29,14 +29,15 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     // Fetch data from respective services
+    // [RxJS] After RxJS implementation, .then (promise) is replaced by .subscribe (observable)
     this.dishService.getFeaturedDish()
-      .then((featuredDish)=> this.dish = featuredDish);
+      .subscribe((featuredDish)=> this.dish = featuredDish);
 
     this.promotionService.getFeaturedPromotion()
-      .then((promotion)=> this.promotion = promotion);
+      .subscribe((promotion)=> this.promotion = promotion);
 
     this.leaderService.getFeaturedLeader()
-      .then((featuredLeader)=> this.leader = featuredLeader);
+      .subscribe((featuredLeader)=> this.leader = featuredLeader);
   }
 
 }
