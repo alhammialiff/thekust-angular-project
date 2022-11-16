@@ -80,6 +80,7 @@ export class ContactComponent implements OnInit {
 
   // ? in parameter: '?' means parameter is optional
   onValueChanged(data?: any) {
+    console.log("this.feedbackForm:", this.feedbackForm);
 
     if (!this.feedbackForm) {
       return;
@@ -87,6 +88,7 @@ export class ContactComponent implements OnInit {
 
     const form = this.feedbackForm;
 
+    // Populate formError keys-value pairs if a particular form field is invalid
     for (const field in this.formErrors) {
 
       // If formErrors object has values..
@@ -95,6 +97,7 @@ export class ContactComponent implements OnInit {
         this.formErrors[field] = '';
 
         const control = form.get(field);
+        console.log("control,", control);
 
         // If form fields are invalid and dirty and is not null,
         // extract error values and add into this.formError[field] key-value pair
