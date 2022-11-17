@@ -16,7 +16,7 @@
       <!-- *ngFor: Allows iteration over arrays. 'let dish of dishes' is the loop format -->
       <!-- <mat-grid-tile *ngFor="let dish of dishes" (click)="onSelect(dish)"> -->
       <mat-grid-tile *ngFor="let dish of dishes" [routerLink]="['/dishdetail',dish.id]">
-        <img height="200px" src={{dish.image}} alt={{dish.name}}>
+        <img height="200px" src='{{BaseURL + dish.image}}' alt='{{BaseURL + dish.name}}'>
         <mat-grid-tile-footer>
           <h1>{{dish.name | uppercase}}</h1>
         </mat-grid-tile-footer>
@@ -24,7 +24,7 @@
     </mat-grid-list>
 
   </div>
-  
+
   <!-- When dish is not yet resolved, the spinner is shown -->
   <div fxFlex [hidden]="dishes">
     <mat-spinner></mat-spinner>

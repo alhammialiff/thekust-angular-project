@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Dish } from '../shared/dish';
 import { DISHES } from '../shared/dishes'; // Rather than importing data directly, use Service to do this for us 
 import { DishService } from '../services/dish.service';
@@ -17,9 +17,10 @@ export class MenuComponent implements OnInit {
   dishes: Dish[];
 
   // selectedDish: Dish = DISHES[0];
-  selectedDish: Dish;
+  // selectedDish: Dish;
 
-  constructor(private dishService: DishService) { }
+  constructor(private dishService: DishService, 
+      @Inject('BaseURL') private BaseURL) { }
 
   // ngOnInit is a Lifecycle Method: Executed when this component is created
   ngOnInit() {
@@ -27,11 +28,14 @@ export class MenuComponent implements OnInit {
     this.dishService.getDishes()
       .subscribe((dishes) => this.dishes = dishes);
       // .catch((error) => console.log(error));
+    
   }
 
   // onSelect 'hook' is linked with (click) event in .html
-  onSelect(dish: Dish) {
-    this.selectedDish = dish; 
-  }
+  // onSelect(dish: Dish) {
+  //   this.selectedDish = dish; 
+  // }
+
+
 
 }
