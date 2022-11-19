@@ -15,6 +15,7 @@ export class MenuComponent implements OnInit {
   // But it can be done without and typescript can still discern its type
   // Eg. dishes = DISHES;
   dishes: Dish[];
+  errMess: string;
 
   // selectedDish: Dish = DISHES[0];
   // selectedDish: Dish;
@@ -25,8 +26,12 @@ export class MenuComponent implements OnInit {
   // ngOnInit is a Lifecycle Method: Executed when this component is created
   ngOnInit() {
     // Using service (dishService) to fetch dishes data
+    // In this subscriber, there are success (dishes) => ... and failure (errmess) => parameters,
+    // kind of like promise
+    // When the Observable (dishService) caught an error, subscriber picks it up via errmess
     this.dishService.getDishes()
-      .subscribe((dishes) => this.dishes = dishes);
+      .subscribe((dishes) => this.dishes = dishes,
+        (errmess) => this.errMess = <any>errmess);
       // .catch((error) => console.log(error));
     
   }

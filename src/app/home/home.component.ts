@@ -20,9 +20,12 @@ export class HomeComponent implements OnInit {
 
   // TS: Data type
   dish: Dish;
+  dishErrMess: string;
   promotion: Promotion;
   leader: Leader;
 
+  // @Inject("BaseURL")... : This was derived in app.module provider.
+  // Defining it below (in constructor) allows passing 'BaseURL' var to the template
   constructor(private dishService: DishService,
     private promotionService: PromotionService,
     private leaderService: LeaderService,
@@ -32,7 +35,8 @@ export class HomeComponent implements OnInit {
     // Fetch data from respective services
     // [RxJS] After RxJS implementation, .then (promise) is replaced by .subscribe (observable)
     this.dishService.getFeaturedDish()
-      .subscribe((featuredDish)=> this.dish = featuredDish);
+      .subscribe((featuredDish)=> this.dish = featuredDish,
+        (errmess) => this.dishErrMess = <any>errmess);
 
     this.promotionService.getFeaturedPromotion()
       .subscribe((promotion)=> this.promotion = promotion);

@@ -6,8 +6,9 @@ import { DISHES } from '../shared/dishes';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DishService } from '../services/dish.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { COMPONENT_FACTORY_RESOLVER } from '@angular/core/src/render3/ng_module_ref';
 
 @Component({
   selector: 'app-dishdetail',
@@ -22,11 +23,14 @@ export class DishdetailComponent implements OnInit {
 
   // TS data types
   dish: Dish;
+  errMess: string;
   dishIds: string[];
   prev: string;
   next: string;
   comment: Comment;
   commentForm: FormGroup;
+  // dishComments: Comment[];
+  dishcopy: Dish;
   date: string;
 
   formErrors = {
@@ -133,11 +137,28 @@ export class DishdetailComponent implements OnInit {
     // console.log("this.route.params['id']", this.route.snapshot.params['id']);
     // console.log(DISHES.filter((dish,idx) => dish.id === this.route.snapshot.params['id'])[0]);
 
-    // Find current dish id via filter with this.route.snapshot.params['id']
+    // Find current dish via filter with this.route.snapshot.params['id']
     let dish = DISHES.filter((dish, idx) => dish.id === this.route.snapshot.params['id'])[0];
 
     // Append new comment into current dish comments array 
     dish.comments.push(this.comment);
+    // this.dishcopy.comments.push(this.comment);
+
+    // [Exercise] - Save comments into this.dishcopy
+    this.dishcopy.comments.push(this.comment);
+
+    console.log("this.dish",this.dish);
+    console.log("this.dishcopy",this.dishcopy);
+
+    this.dishService.putDish(this.dishcopy)
+      .subscribe(dish => {
+        this.dish = dish;
+        this.dishcopy = dish;
+      }, errmess => {
+        this.dish=null; 
+        this.dishcopy = null; 
+        this.errMess = <any>errmess;
+      });
 
     // [Debug - Leaving it for learning]
     // console.log(dish);
@@ -151,6 +172,8 @@ export class DishdetailComponent implements OnInit {
     });
 
     console.log(this.comment);
+    // console.log(this.dishComments);
+
 
     this.commentFormDirective.resetForm();
   }
@@ -165,14 +188,23 @@ export class DishdetailComponent implements OnInit {
     this.dishService.getDishIds()
       .subscribe((dishIds) => this.dishIds = dishIds);
 
+    // [Own test to retrieve dish comments and store into this.dishComments]
+    // this.dishService.getDish(this.route.snapshot.params['id'])
+    //   .subscribe(dish => this.dishComments = dish.comments);
+
     // RxJS: What happens here? 
     // Whenever params observable changes value (route parameter), switchMap immediately 
     // takes the params value and do a getDish (observable) from my dishService. Finally, the observable 
-    // is subscribed
+    // is subscribed. <any>errmess is type assertion
     this.route
       .params
       .pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+      .subscribe(dish => 
+        { this.dish = dish; 
+          this.dishcopy = dish; 
+          this.setPrevNext(dish.id); 
+        }, 
+        errmess => this.errMess = <any>errmess);
 
     // [Debug - Leaving it for learning]
     // this.dishService.getDish(id)

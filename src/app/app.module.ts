@@ -2,6 +2,7 @@ import 'hammerjs';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AppRoutingModule } from './app-routing/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -31,13 +32,15 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
+import { LoginComponent } from './login/login.component';
+
 import { DishService } from './services/dish.service';
 import { LeaderService } from './services/leader.service';
 import { PromotionService } from './services/promotion.service';
-import { AppRoutingModule } from './app-routing/app-routing.module';
-import { LoginComponent } from './login/login.component';
+import { ProcessHTTPMesgService } from './services/process-httpmesg.service';
 
 import { baseURL } from './shared/baseurl';
+
 
 
 // Decorator @NgModule: Modifies the use of JS classes
@@ -87,6 +90,7 @@ import { baseURL } from './shared/baseurl';
     DishService,
     PromotionService,
     LeaderService,
+    ProcessHTTPMesgService,
     { provide: 'BaseURL', useValue: baseURL }
   ], // Providers specifies the services this module needs
 
