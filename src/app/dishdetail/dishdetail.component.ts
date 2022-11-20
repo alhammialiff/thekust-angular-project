@@ -8,13 +8,27 @@ import { Location } from '@angular/common';
 import { DishService } from '../services/dish.service';
 import { switchMap, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { COMPONENT_FACTORY_RESOLVER } from '@angular/core/src/render3/ng_module_ref';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
+  styleUrls: ['./dishdetail.component.scss'],
+  animations: [
+    trigger('visibility', [
+      state('shown', style({
+        transform: 'scale(1.0)',
+        opacity: 1
+      })),
+      state('hidden', style({
+        transform: 'scale(0.5)',
+        opacity: 0
+      })),
+      transition('* => *', animate('0.5s ease-in-out'))
+    ])
+  ]
 })
+
 export class DishdetailComponent implements OnInit {
 
   // Input target binding from parent component via @Input() Directive
@@ -32,6 +46,7 @@ export class DishdetailComponent implements OnInit {
   // dishComments: Comment[];
   dishcopy: Dish;
   date: string;
+  visibility = 'shown';
 
   formErrors = {
     'comment': '',
@@ -62,6 +77,41 @@ export class DishdetailComponent implements OnInit {
 
   }
 
+  ngOnInit() {
+    // Fetch ID from route URL parameters. Params is one of Angular built-in observables
+    // snapshot: snapshot captures a 'snapshot' of the route service at the time it is invoked.
+    // let id = this.route.snapshot.params['id'];
+
+    // RxJS: What happens here?
+    // getDishIds() is invoked and subscribe to monitor any change in values
+    this.dishService.getDishIds()
+      .subscribe((dishIds) => this.dishIds = dishIds);
+
+    // [Own test to retrieve dish comments and store into this.dishComments]
+    // this.dishService.getDish(this.route.snapshot.params['id'])
+    //   .subscribe(dish => this.dishComments = dish.comments);
+
+    // RxJS: What happens here? 
+    // Whenever params observable changes value (route parameter), switchMap immediately 
+    // takes the params value and do a getDish (observable) from my dishService. 
+    // When subscribe is called, this.dish will take the newly selected dish data <any>errmess is type assertion
+    this.route
+      .params
+      .pipe(switchMap((params: Params) => {
+        this.visibility = 'hidden';
+        return this.dishService.getDish(params['id']);
+      }))
+      .subscribe(dish => {
+        this.dish = dish;
+        this.dishcopy = dish;
+        this.setPrevNext(dish.id);
+        this.visibility = 'shown';
+      }, errmess => this.errMess = <any>errmess);
+
+    // [Debug - Leaving it for learning]
+    // this.dishService.getDish(id)
+    //   .subscribe((dish) => this.dish = dish);
+  }
 
   // Comment form creation method
   createForm() {
@@ -103,7 +153,7 @@ export class DishdetailComponent implements OnInit {
         if (control && control.dirty && !control.valid) {
 
           const messages = this.validationMessages[field];
-          
+
           // Iterate key in control.errors
           for (const key in control.errors) {
 
@@ -147,16 +197,16 @@ export class DishdetailComponent implements OnInit {
     // [Exercise] - Save comments into this.dishcopy
     this.dishcopy.comments.push(this.comment);
 
-    console.log("this.dish",this.dish);
-    console.log("this.dishcopy",this.dishcopy);
+    console.log("this.dish", this.dish);
+    console.log("this.dishcopy", this.dishcopy);
 
     this.dishService.putDish(this.dishcopy)
       .subscribe(dish => {
         this.dish = dish;
         this.dishcopy = dish;
       }, errmess => {
-        this.dish=null; 
-        this.dishcopy = null; 
+        this.dish = null;
+        this.dishcopy = null;
         this.errMess = <any>errmess;
       });
 
@@ -178,38 +228,7 @@ export class DishdetailComponent implements OnInit {
     this.commentFormDirective.resetForm();
   }
 
-  ngOnInit() {
-    // Fetch ID from route URL parameters. Params is one of Angular built-in observables
-    // snapshot: snapshot captures a 'snapshot' of the route service at the time it is invoked.
-    // let id = this.route.snapshot.params['id'];
 
-    // RxJS: What happens here?
-    // getDishIds() is invoked and subscribe to monitor any change in values
-    this.dishService.getDishIds()
-      .subscribe((dishIds) => this.dishIds = dishIds);
-
-    // [Own test to retrieve dish comments and store into this.dishComments]
-    // this.dishService.getDish(this.route.snapshot.params['id'])
-    //   .subscribe(dish => this.dishComments = dish.comments);
-
-    // RxJS: What happens here? 
-    // Whenever params observable changes value (route parameter), switchMap immediately 
-    // takes the params value and do a getDish (observable) from my dishService. Finally, the observable 
-    // is subscribed. <any>errmess is type assertion
-    this.route
-      .params
-      .pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-      .subscribe(dish => 
-        { this.dish = dish; 
-          this.dishcopy = dish; 
-          this.setPrevNext(dish.id); 
-        }, 
-        errmess => this.errMess = <any>errmess);
-
-    // [Debug - Leaving it for learning]
-    // this.dishService.getDish(id)
-    //   .subscribe((dish) => this.dish = dish);
-  }
 
   // When invoked, it sets the prev and next dishId value
   setPrevNext(dishId: string) {
