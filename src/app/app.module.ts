@@ -40,6 +40,7 @@ import { PromotionService } from './services/promotion.service';
 import { ProcessHTTPMesgService } from './services/process-httpmesg.service';
 
 import { baseURL } from './shared/baseurl';
+import { HighlightDirective } from './directives/highlight.directive';
 
 
 
@@ -58,7 +59,8 @@ import { baseURL } from './shared/baseurl';
     HomeComponent,
     AboutComponent,
     ContactComponent,
-    LoginComponent
+    LoginComponent,
+    HighlightDirective
   ],
 
   // This are the imports needed for this module (AppModule)
