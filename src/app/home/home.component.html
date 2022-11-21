@@ -6,7 +6,7 @@
      fxLayoutGap="10px">
 
 <!-- Dish Card -->
-<mat-card *ngIf="dish" fxFlex>
+<mat-card *ngIf="dish" fxFlex [@expand]>
   <mat-card-header>
     <div mat-card-avatar></div>
     <mat-card-title>
@@ -30,7 +30,7 @@
 </div>
 
 <!-- Promo Card -->
-<mat-card *ngIf="promotion" fxFlex>
+<mat-card *ngIf="promotion" fxFlex [@expand]>
   <mat-card-header>
     <div mat-card-avatar></div>
     <mat-card-title>
@@ -50,7 +50,7 @@
 </div>
 
 <!-- Leader Card -->
-<mat-card *ngIf="leader" fxFlex>
+<mat-card *ngIf="leader" fxFlex [@expand]>
   <mat-card-header>
     <div mat-card-avatar></div>
     <mat-card-title>
