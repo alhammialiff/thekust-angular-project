@@ -42,6 +42,7 @@ export class MenuComponent implements OnInit {
     this.dishService.getDishes()
       .subscribe((dishes) => this.dishes = dishes,
         (errmess) => this.errMess = <any>errmess);
+
       // .catch((error) => console.log(error));
     
   }

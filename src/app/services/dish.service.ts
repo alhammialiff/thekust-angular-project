@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { baseURL } from '../shared/baseurl';
-import { Http } from '@angular/http';
 import { map, catchError } from 'rxjs/operators';
 import { ProcessHTTPMesgService } from './process-httpmesg.service';
 
@@ -14,7 +13,6 @@ import { ProcessHTTPMesgService } from './process-httpmesg.service';
 @Injectable({
   providedIn: 'root'
 })
-
 export class DishService {
   constructor(private http: HttpClient,
       private processHTTPMesgService: ProcessHTTPMesgService) { }

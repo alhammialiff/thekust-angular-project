@@ -37,9 +37,14 @@
   <!-- Angular Reactive Form -->
   <div fxFlex fxFlexOffset="20px" class="form-size">
     <h3>Send us your Feedback</h3>
-    <p>{{feedbackForm.value | json}} {{feedbackForm.status | json}}</p>
+    <p><i>[Leaving this for learning] {{feedbackForm.value | json}} {{feedbackForm.status | json}}</i></p>
     <!-- f'ormGroup' comes from FormBuilder class in contact.component.ts file -->
-    <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+    <form novalidate 
+      *ngIf="!feedback" 
+      [formGroup]="feedbackForm" 
+      #fform="ngForm" 
+      [@formVisibility]="formVisibility"
+      (ngSubmit)="onSubmit()">
 
       <p>
         <mat-form-field class="half-width">
@@ -95,4 +100,23 @@
 
     </form>
   </div>
+
+  <!-- Feedback submission loading -->
+  <!-- <div fxFlex [hidden]="!feedback"> -->
+  <div fxFlex>
+    <mat-spinner [@spinnerPreviewVisibility]="spinnerPreviewVisibility"></mat-spinner>
+  </div>
+  
+  <div *ngIf="feedback" [@feedbackPreviewVisibility]="feedbackPreviewVisibility">
+    <h4>Your Submission</h4>
+    <p> <strong>First Name:</strong> {{feedback.firstname}}</p>
+    <p> <strong>Last Name:</strong> {{feedback.lastname}}</p>
+    <p> <strong>Tel. Number:</strong> {{feedback.telnum}}</p>
+    <p> <strong>Email:</strong> {{feedback.email}}</p>
+    <p> <strong>May We Contact You?:</strong> {{feedback.agree}}</p>
+    <p> <strong>Contact Type:</strong> {{feedback.contacttype}}</p>
+    <p> <strong>Feedback:</strong> {{feedback.message}}</p>
+  </div>
+
+
 </div>

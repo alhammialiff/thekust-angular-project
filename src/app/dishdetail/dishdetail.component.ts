@@ -16,6 +16,7 @@ import { visibility, flyInOut,expand } from '../animations/app.animation';
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
   styleUrls: ['./dishdetail.component.scss'],
+  // host: Component starts animating when we route into this component
   host: {
     '[@flyInOut]': 'true',
     'style': 'display: block;'

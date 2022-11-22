@@ -3,8 +3,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { controlNameBinding } from '@angular/forms/src/directives/reactive_directives/form_control_name';
 import { Feedback, ContactType } from '../shared/feedback';
-import { flyInOut } from '../animations/app.animation';
-
+import { feedbackPreviewVisibility, flyInOut, spinnerPreviewVisibility, formVisibility } from '../animations/app.animation';
+import { FeedbackService } from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
@@ -15,14 +15,21 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display: block;'
   },
   animations: [
-    flyInOut()
+    flyInOut(),
+    spinnerPreviewVisibility(),
+    feedbackPreviewVisibility(),
+    formVisibility()
   ]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  errMess: string;
   contactType = ContactType;
+  spinnerPreviewVisibility = "hidden";
+  feedbackPreviewVisibility = "hidden";
+  formVisibility = "shown";
 
   // Helps to tracks any errors in the form
   formErrors = {
@@ -56,7 +63,8 @@ export class ContactComponent implements OnInit {
   // This enables us to get access to the template form ad the completely reset form
   @ViewChild('fform') feedbackFormDirective;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private feedbackService: FeedbackService) {
     // Instantiate creation of form
     this.createForm();
   }
@@ -130,15 +138,39 @@ export class ContactComponent implements OnInit {
     // this.feedback var with the feedbackForm.value like so (no frills)
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: 0,
-      email: '',
-      agree: false,
-      contacttype: 'None',
-      message: ''
-    });
+    this.formVisibility = 'hidden';
+    this.spinnerPreviewVisibility = 'shown';
+
+    // Send feedback to server via http post
+    this.feedbackService.submitFeedback(this.feedback)
+      .subscribe(feedback => {
+        this.spinnerPreviewVisibility = 'hidden';
+        this.feedback = feedback;
+        this.feedbackPreviewVisibility = 'shown';
+        console.log("this.feedback: ", this.feedback);
+      }, errmess => {
+        this.feedback = null;
+        this.errMess = <any>errmess;
+      });
+
+    // 
+    setTimeout(() => {
+
+      this.feedbackForm.reset({
+        firstname: '',
+        lastname: '',
+        telnum: 0,
+        email: '',
+        agree: false,
+        contacttype: 'None',
+        message: ''
+      });
+      this.feedbackPreviewVisibility = 'shown';
+      this.feedback = null;
+
+    }, 5000);
+
+    this.formVisibility = 'shown';
 
     // This is to ensure that we have completely reset our form
     this.feedbackFormDirective.resetForm()

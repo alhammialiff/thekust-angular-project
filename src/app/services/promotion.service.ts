@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Promotion } from '../shared/promotion';
 import { PROMOTIONS } from '../shared/promotions';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, catchError, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { baseURL } from '../shared/baseurl';
+import { ProcessHTTPMesgService } from './process-httpmesg.service';
+
 
 
 @Injectable({
@@ -10,7 +14,8 @@ import { delay } from 'rxjs/operators';
 })
 export class PromotionService {
 
-  constructor() { }
+  constructor(private http: HttpClient,
+    private processHTTPMesgService: ProcessHTTPMesgService) { }
 
   getPromotions(): Observable<Promotion[]> {
     // [Using native JS Promise]
@@ -22,7 +27,9 @@ export class PromotionService {
     // });
 
     // [Using RxJS observable]
-    return of(PROMOTIONS).pipe(delay(2000));
+    // return of(PROMOTIONS).pipe(delay(2000));
+    return this.http.get<Promotion[]>(baseURL + 'promotions')
+      .pipe(catchError(this.processHTTPMesgService.handleError));
   }
 
   getPromotion(id: string): Observable<Promotion> {
@@ -35,7 +42,9 @@ export class PromotionService {
     // });
 
     // [Using RxJS observable]
-    return of(PROMOTIONS.filter((promo) => (promo.id === id))[0]).pipe(delay(2000));
+    // return of(PROMOTIONS.filter((promo) => (promo.id === id))[0]).pipe(delay(2000));
+    return this.http.get<Promotion>(baseURL + 'promotions' + id)
+      .pipe(catchError(this.processHTTPMesgService.handleError));
   }
 
   // This will be used to display featured promo in Home
@@ -49,7 +58,11 @@ export class PromotionService {
     // });
 
     // [Using RxJS observable]
-    return of(PROMOTIONS.filter((promo) => promo.featured)[0]).pipe(delay(2000));
+    // return of(PROMOTIONS.filter((promo) => promo.featured)[0]).pipe(delay(2000));
+    return this.http
+      .get<Promotion>(baseURL + 'promotions?featured=true')
+      .pipe(map(promotions => promotions[0]))
+      .pipe(catchError(this.processHTTPMesgService.handleError));
 
 
   }
