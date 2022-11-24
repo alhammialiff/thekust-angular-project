@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { MenuComponent } from './menu.component';
+
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MenuComponent } from './menu.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
@@ -59,7 +61,7 @@ describe('MenuComponent', () => {
     fixture = TestBed.createComponent(MenuComponent);
     // component: Gives access to the Menu Component we referenced in fixture for the test
     component = fixture.componentInstance;
-    // detectChanges(): Test will only proceed forward if changes we have made in Menu Component are complete
+    // detectChanges(): Test will only proceed forward if changes we have made in Menu Component are completed
     fixture.detectChanges();
   });
 
@@ -80,11 +82,12 @@ describe('MenuComponent', () => {
 
   // This test serves to check HTML elements via DebugElement ad HTMLElement
   it('should use dishes in the template', () => {
+    
     fixture.detectChanges();
     // Get access to the DOM
     let de: DebugElement;
     let el: HTMLElement;
-
+    
     de = fixture.debugElement.query(By.css('h1'));
     el = de.nativeElement;
 

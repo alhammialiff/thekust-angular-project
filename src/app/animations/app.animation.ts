@@ -1,6 +1,6 @@
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-export function visibility {
+export function visibility(){
     return trigger('visibility', [
         // state() are states defined at the end of each transition
         state('shown', style({
@@ -16,7 +16,7 @@ export function visibility {
     ]);
 }
 
-export function spinnerPreviewVisibility {
+export function spinnerPreviewVisibility(){
     return trigger('spinnerPreviewVisibility', [
         state('shown', style({
             opacity: 1
@@ -28,7 +28,7 @@ export function spinnerPreviewVisibility {
     ]);
 }
 
-export function feedbackPreviewVisibility {
+export function feedbackPreviewVisibility(){
     return trigger('feedbackPreviewVisibility', [
         state('shown', style({
             opacity: 1
@@ -40,7 +40,7 @@ export function feedbackPreviewVisibility {
     ]);
 }
 
-export function formVisibility {
+export function formVisibility(){
     return trigger('formVisibility', [
         state('shown', style({
             opacity: 1
