@@ -91,7 +91,7 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  // First test: It should create an instance of the Home Component
+  // First test: This should create an instance of the Home Component
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -112,21 +112,21 @@ describe('HomeComponent', () => {
 
     // [Retrospect]: innerText null error is caused by the # prefix in html id tag in template (typo)
     featuredDishCard = featuredDishCard.querySelector('#featured-dish-header');
-    console.log(featured[0].name);
+    // console.log(featured[0].name);
     expect(featuredDishCard.innerText).toBe(featured[0].name.toUpperCase());
 
     featuredLeaderCard = featuredLeaderCard.querySelector('#featured-leader-header');
-    console.log(featured[0].name);
+    // console.log(featured[0].name);
     expect(featuredLeaderCard.innerText).toBe(featured[1].name.toUpperCase());
 
     featuredPromotionCard = featuredPromotionCard.querySelector('#featured-promotion-header');
-    console.log(featured[0].name);
+    // console.log(featured[0].name);
     expect(featuredPromotionCard.innerText).toBe(featured[2].name.toUpperCase());
 
 
   })
 
-  // Third test: It should have 3 featured cards descriptions
+  // Third test: Home Component should have 3 featured cards descriptions
   it('Featured card elements should have 3 featured description', () => {
     let featuredDishCard: HTMLElement;
     let featuredLeaderCard: HTMLElement;
@@ -151,6 +151,23 @@ describe('HomeComponent', () => {
 
     featuredPromotionCard = featuredPromotionCard.querySelector('#featured-promotion-description');
     expect(featuredPromotionCard.innerText).toBe(featured[2].description);
+
+  })
+
+  // Fourth test: Home Component should have 3 featured card elements in total
+  it('Featured cards should be 3 in total', () => {
+
+    // let featuredCards: HTMLElement[];
+    let featuredCards: DebugElement[];
+
+    // Find all mat-card elements found in Home Component (returns array)
+    featuredCards = fixture.debugElement.queryAll(By.css('mat-card'));
+
+    // console.log("featureCards:",featuredCards.length);
+
+    // Expect array of mat-card elements found to be 3
+    expect(featuredCards.length).toBe(3);
+
 
   })
 
