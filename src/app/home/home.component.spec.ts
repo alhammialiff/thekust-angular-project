@@ -29,29 +29,38 @@ import { HomeComponent } from './home.component';
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
+  let de: DebugElement;
+  let el: HTMLElement;
+  let ids: string[];
+  const featured: any = [
+    DISHES.filter(dish => dish.featured === true)[0],
+    LEADERS.filter(leader => leader.featured === true)[0],
+    PROMOTIONS.filter(promo => promo.featured === true)[0]
+  ];
 
   // The configurations required to run HomeComponent prior to test
   beforeEach(async(() => {
 
-    // Mock services: Service functions name need to be the same as actual ones 
+    // Mock services (or Stubs): Service functions name need to be the same as actual ones 
     let dishServiceStub = {
-      getFeaturedDish: function(): Observable<Dish> {
+      getFeaturedDish: function (): Observable<Dish> {
         return of(DISHES.filter(dish => dish.featured === true)[0]);
       }
     }
 
     let promotionServiceStub = {
-      getFeaturedPromotion: function(): Observable<Promotion>{
+      getFeaturedPromotion: function (): Observable<Promotion> {
         return of(PROMOTIONS.filter(promo => promo.featured === true)[0]);
       }
     }
 
     let leaderServiceStub = {
-      getFeaturedLeader: function(): Observable<Leader>{
-        return of(LEADERS.filter(leader => leader.featured===true)[0]);
+      getFeaturedLeader: function (): Observable<Leader> {
+        return of(LEADERS.filter(leader => leader.featured === true)[0]);
       }
     }
 
+    // Test Configurations
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -60,15 +69,15 @@ describe('HomeComponent', () => {
         MatCardModule,
         MatProgressSpinnerModule
       ],
-      declarations: [ HomeComponent ],
+      declarations: [HomeComponent],
       providers: [
-        {provide: DishService, useValue: dishServiceStub},
-        {provide: LeaderService, useValue: leaderServiceStub},
-        {provide: PromotionService, useValue: promotionServiceStub},
-        {provide: 'BaseURL', useValue: baseURL}
+        { provide: DishService, useValue: dishServiceStub },
+        { provide: LeaderService, useValue: leaderServiceStub },
+        { provide: PromotionService, useValue: promotionServiceStub },
+        { provide: 'BaseURL', useValue: baseURL }
       ]
     })
-    .compileComponents();
+      .compileComponents();
 
     const dishservice = TestBed.get(DishService);
     const promotionservice = TestBed.get(PromotionService);
@@ -87,27 +96,43 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // Second test: It should have 3 featured cards
-  it('card elements should be 3', () =>{
+  // Second test: Featured card elements should have 3 featured cards headlines
+  it('Featured card elements should have 3 featured headlines', () => {
+    
     fixture.detectChanges();
-
-    let de: DebugElement;
-    let el: HTMLElement;
+    
     let featuredDishCard: HTMLElement;
     let featuredLeaderCard: HTMLElement;
     let featuredPromotionCard: HTMLElement;
-    let ids: string[];
-    let featured: any;
 
-    featured = [
-      DISHES.filter(dish => dish.featured === true)[0],
-      LEADERS.filter(leader => leader.featured===true)[0],
-      PROMOTIONS.filter(promo => promo.featured === true)[0]
-    ];
 
-    // de = fixture.debugElement.query(By.css('mat-card'));
-    // el = de.nativeElement;
-    // expect(el.textContent).toContain(DISHES[0].name.toUpperCase());
+    featuredDishCard = fixture.debugElement.nativeElement;
+    featuredLeaderCard = fixture.debugElement.nativeElement;
+    featuredPromotionCard = fixture.debugElement.nativeElement;
+
+    // [Retrospect]: innerText null error is caused by the # prefix in html id tag in template (typo)
+    featuredDishCard = featuredDishCard.querySelector('#featured-dish-header');
+    console.log(featured[0].name);
+    expect(featuredDishCard.innerText).toBe(featured[0].name.toUpperCase());
+
+    featuredLeaderCard = featuredLeaderCard.querySelector('#featured-leader-header');
+    console.log(featured[0].name);
+    expect(featuredLeaderCard.innerText).toBe(featured[1].name.toUpperCase());
+
+    featuredPromotionCard = featuredPromotionCard.querySelector('#featured-promotion-header');
+    console.log(featured[0].name);
+    expect(featuredPromotionCard.innerText).toBe(featured[2].name.toUpperCase());
+
+
+  })
+
+  // Third test: It should have 3 featured cards descriptions
+  it('Featured card elements should have 3 featured description', () => {
+    let featuredDishCard: HTMLElement;
+    let featuredLeaderCard: HTMLElement;
+    let featuredPromotionCard: HTMLElement;
+
+    fixture.detectChanges();
 
     // featuredCard = fixture.debugElement.nativeElement.querySelector('#featured-dish');
     featuredDishCard = fixture.debugElement.nativeElement;
@@ -118,13 +143,13 @@ describe('HomeComponent', () => {
     // console.log(featured[1].description);
     // console.log(featured[2].description);
 
-    featuredDishCard = featuredDishCard.querySelector('#featured-dish');
+    featuredDishCard = featuredDishCard.querySelector('#featured-dish-description');
     expect(featuredDishCard.innerText).toBe(featured[0].description);
 
-    featuredLeaderCard = featuredLeaderCard.querySelector('#featured-leader');
+    featuredLeaderCard = featuredLeaderCard.querySelector('#featured-leader-description');
     expect(featuredLeaderCard.innerText).toBe(featured[1].description);
 
-    featuredPromotionCard = featuredPromotionCard.querySelector('#featured-promotion');
+    featuredPromotionCard = featuredPromotionCard.querySelector('#featured-promotion-description');
     expect(featuredPromotionCard.innerText).toBe(featured[2].description);
 
   })
