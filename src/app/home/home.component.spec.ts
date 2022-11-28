@@ -112,18 +112,15 @@ describe('HomeComponent', () => {
 
     // [Retrospect]: innerText null error is caused by the # prefix in html id tag in template (typo)
     featuredDishCard = featuredDishCard.querySelector('#featured-dish-header');
-    // console.log(featured[0].name);
     expect(featuredDishCard.innerText).toBe(featured[0].name.toUpperCase());
 
     featuredLeaderCard = featuredLeaderCard.querySelector('#featured-leader-header');
-    // console.log(featured[0].name);
     expect(featuredLeaderCard.innerText).toBe(featured[1].name.toUpperCase());
 
     featuredPromotionCard = featuredPromotionCard.querySelector('#featured-promotion-header');
-    // console.log(featured[0].name);
     expect(featuredPromotionCard.innerText).toBe(featured[2].name.toUpperCase());
 
-
+  
   })
 
   // Third test: Home Component should have 3 featured cards descriptions
@@ -134,14 +131,9 @@ describe('HomeComponent', () => {
 
     fixture.detectChanges();
 
-    // featuredCard = fixture.debugElement.nativeElement.querySelector('#featured-dish');
     featuredDishCard = fixture.debugElement.nativeElement;
     featuredLeaderCard = fixture.debugElement.nativeElement;
     featuredPromotionCard = fixture.debugElement.nativeElement;
-
-    // console.log(featured[0].description);
-    // console.log(featured[1].description);
-    // console.log(featured[2].description);
 
     featuredDishCard = featuredDishCard.querySelector('#featured-dish-description');
     expect(featuredDishCard.innerText).toBe(featured[0].description);
@@ -162,8 +154,6 @@ describe('HomeComponent', () => {
 
     // Find all mat-card elements found in Home Component (returns array)
     featuredCards = fixture.debugElement.queryAll(By.css('mat-card'));
-
-    // console.log("featureCards:",featuredCards.length);
 
     // Expect array of mat-card elements found to be 3
     expect(featuredCards.length).toBe(3);

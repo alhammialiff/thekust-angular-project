@@ -19,7 +19,8 @@ getTestBed().initTestEnvironment(
 
 // To run the test in Menu Component only
 // const context = require.context('./', true, /menu\.component\.spec\.ts$/);
-const context = require.context('./', true, /home\.component\.spec\.ts$/);
+// const context = require.context('./', true, /home\.component\.spec\.ts$/);
+const context = require.context('./', true, /app-routing\.module\.spec\.ts$/);
 
 // And load the modules.
 context.keys().map(context);
