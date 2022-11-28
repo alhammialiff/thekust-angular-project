@@ -3,9 +3,10 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { AppRoutingModule } from './app-routing.module';
 import { Location } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
+import { Router, RouterLinkWithHref } from '@angular/router';
 import { routes } from './routes';
 import { baseURL } from '../shared/baseurl';
+import { By } from '@angular/platform-browser';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -33,6 +34,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatSelectModule, MatSlideToggleModule } from '@angular/material';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 
 describe('AppRoutingModule', () => {
@@ -115,6 +117,88 @@ describe('HomeComponent', ()=>{
     homeFixture.whenStable().then(()=>{
       expect(location.path()).toEqual('/home')
     })
-  }))
+  }));
+
+  it('Navigate to Home redirects you to /home', async(()=>{
+    
+    objRouter.navigate(["/home"]).then(()=>{
+      expect(location.path()).toEqual('/home')
+    })
+
+  }));
+
+  it('Navigate to Menu redirects you to /menu', async(()=>{
+    
+    objRouter.navigate(["/menu"]).then(()=>{
+      expect(location.path()).toEqual('/menu')
+    })
+
+  }));
+
+  it('Navigate to About redirects you to /aboutus', async(()=>{
+    
+    objRouter.navigate(["/aboutus"]).then(()=>{
+      expect(location.path()).toEqual('/aboutus')
+    })
+
+  }));
+
+  it('Navigate to Contact redirects you to /contact', async(()=>{
+    
+    objRouter.navigate(["/contactus"]).then(()=>{
+      expect(location.path()).toEqual('/contactus')
+    })
+
+  }));
+
+  it('Navigate to Dish Detail with Dish ID 0 redirects you to /dishdetail/0', async(()=>{
+    
+    objRouter.navigate(["/dishdetail/0"]).then(()=>{
+      expect(location.path()).toEqual('/dishdetail/0')
+    })
+
+  }));
+
+  it('Navigate to Dish Detail with Dish ID 1 redirects you to /dishdetail/1', async(()=>{
+    
+    objRouter.navigate(["/dishdetail/1"]).then(()=>{
+      expect(location.path()).toEqual('/dishdetail/1')
+    })
+
+  }));
+  
+  it('Navigate to Dish Detail with Dish ID 2 redirects you to /dishdetail/2', async(()=>{
+    
+    objRouter.navigate(["/dishdetail/2"]).then(()=>{
+      expect(location.path()).toEqual('/dishdetail/2')
+    })
+
+  }));
+
+  it('Navigate to Dish Detail with Dish ID 3 redirects you to /dishdetail/3', async(()=>{
+    
+    objRouter.navigate(["/dishdetail/3"]).then(()=>{
+      expect(location.path()).toEqual('/dishdetail/3')
+    })
+
+  }));
+
+  it('Navigate to Dish Detail with Dish ID 4 redirects you to /dishdetail/4', async(()=>{
+    
+    objRouter.navigate(["/dishdetail/4"]).then(()=>{
+      expect(location.path()).toEqual('/dishdetail/4')
+    })
+
+  }));
+
+  it('Navigate to Dish Detail with Dish ID 5 redirects you to /dishdetail/5', async(()=>{
+    
+    objRouter.navigate(["/dishdetail/5"]).then(()=>{
+      expect(location.path()).toEqual('/dishdetail/5')
+    })
+
+  }));
+
+
 
 })
